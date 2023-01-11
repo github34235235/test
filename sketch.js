@@ -1,4 +1,4 @@
-// P_1_0_01
+// P_1_1_1_01
 //
 // Generative Gestaltung – Creative Coding im Web
 // ISBN: 978-3-87439-902-9, First Edition, Hermann Schmidt, Mainz, 2018
@@ -18,31 +18,35 @@
 // limitations under the License.
 
 /**
- * changing colors and size by moving the mouse
+ * draw the color spectrum by moving the mouse
  *
  * MOUSE
- * position x          : size
- * position y          : color
+ * position x/y        : resolution
  *
  * KEYS
  * s                   : save png
  */
 'use strict';
 
-function setup() {
-  createCanvas(720, 720);
-  noCursor();
+var stepX;
+var stepY;
 
-  colorMode(HSB, 360, 100, 100);
-  rectMode(CENTER);
+function setup() {
+  createCanvas(800, 400);
   noStroke();
+  colorMode(HSB, width, height, 100);
 }
 
 function draw() {
-  background(mouseY / 2, 100, 100);
+  stepX = mouseX + 2;
+  stepY = mouseY + 2;
 
-  fill(360 - mouseY / 2, 100, 100);
-  rect(360, 360, mouseX + 1, mouseX + 1);
+  for (var gridY = 0; gridY < height; gridY += stepY) {
+    for (var gridX = 0; gridX < width; gridX += stepX) {
+      fill(gridX, height - gridY, 100);
+      rect(gridX, gridY, stepX, stepY);
+    }
+  }
 }
 
 function keyPressed() {
